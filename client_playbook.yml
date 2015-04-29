@@ -1,0 +1,5 @@
+# file: test play yml
+- hosts: localhost
+  connection: local
+  roles:
+  - common

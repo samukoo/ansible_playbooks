@@ -1,0 +1,14 @@
+# common tasks
+
+- name: Common packages
+  with_items:
+  - git
+  - maven
+  - curl
+  - nano
+  - wget
+  - python-boto
+  yum: name="{{ item }}"
+
+- name: Let's enable SSH server if it's not already enabled
+  service: name=sshd enabled=yes state=started
