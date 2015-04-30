@@ -1,0 +1,7 @@
+# file: developer_playbook
+# Get source code from github
+
+- hosts: localhost
+  connection: local
+  roles:
+  - source-code
