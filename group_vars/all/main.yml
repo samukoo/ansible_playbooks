@@ -1,0 +1,9 @@
+# file group_vars/all/main.yml
+
+#
+# User variables
+#
+
+local_users:
+
+  - user: skotisaari

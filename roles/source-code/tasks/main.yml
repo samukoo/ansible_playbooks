@@ -1,0 +1,22 @@
+# file: roles/source-code/tasks/main.yml
+
+#
+# Git checkout source code
+#
+
+- name: Local user workspace
+  with_items: local_users | default([])
+  file: path="/home/{{ item.user }}/workspace" state=directory owner={{ item.user }} group={{ item.user }}
+
+- name: git source code checkout
+  with_nested: 
+    - local_users | default ([])
+    - git_repositories | default([])  
+  git: repo="{{ item.1.service}}{{ item.1.module}}.git"
+       dest=/home/{{ item.0.user }}/workspace/{{ item.1.module }}/
+
+- name: User workspace access rights
+  with_nested:
+    - local_users | default ([])
+    - git_repositories | default([])
+  file: path="/home/{{ item.0.user }}/workspace/{{ item.1.module }}/" owner={{ item.0.user }} group={{ item.0.user }}

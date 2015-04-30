@@ -1,0 +1,7 @@
+# file: group_vars/all/repositories.yml
+
+git_repositories:
+
+#Boardgame repository
+  - service: "https://github.com/samukoo/"
+    module: Boardgame

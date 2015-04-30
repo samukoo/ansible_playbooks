@@ -5,3 +5,4 @@
   connection: local
   roles:
   - source-code
+  - eclipse
