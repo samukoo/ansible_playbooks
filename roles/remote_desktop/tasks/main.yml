@@ -1,0 +1,52 @@
+# file: roles/remote_desktop/main.yml
+
+  - name: install rdp 
+    with_items:
+    - xrdp
+    yum: name="{{ item }}"
+
+#
+# https://bugzilla.redhat.com/show_bug.cgi?id=1177202
+#
+  - name: Bug 1177202 - Fix the SELinux context of the service binaries
+    with_items:
+    - /usr/sbin/xrdp
+    - /usr/sbin/xrdp-sesman
+    file: dest="{{ item }}" setype=bin_t
+
+#
+# Disabling XRDP each time configuration is applied sometimes helps.
+#
+  - name: Disable RDP services
+    when: ("" == "{{ lookup('env','DISPLAY') }}")
+    with_items:
+    - xrdp.service
+    - xrdp-sesman.service
+    service: name="{{ item }}" enabled=no state=stopped
+
+  - name: Copy the Swedish keymap to Finnish
+    command: chdir=/etc/xrdp creates=km-040b.ini
+             cp km-041d.ini km-040b.ini
+
+  - name: Set the X keymap
+    when: not "" == "{{ lookup('env','DISPLAY') }}"
+    command: setxkbmap -model {{ xkbmap_model | default('pc104') }}
+             -layout {{ xkbmap_layout | default('us') }}
+
+
+
+
+
+
+  - name: enable rdp services
+    with_items:
+    - xrdp.service
+    - xrdp-sesman.service
+    service: name="{{ item }}" enabled=yes state=started
+
+  - name: firewall
+    firewalld: permanent=yes port=3389/tcp state=enabled
+ 
+  - name: X keyboard layout
+    when: ("" == "{{ lookup('env','DISPLAY') }}")
+    debug: msg="Run this playbook within an X session to set the keymap."

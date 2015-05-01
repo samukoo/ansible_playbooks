@@ -8,6 +8,7 @@
   - nano
   - wget
   - python-boto
+  - docker
   yum: name="{{ item }}"
 
 - name: Let's enable SSH server if it's not already enabled

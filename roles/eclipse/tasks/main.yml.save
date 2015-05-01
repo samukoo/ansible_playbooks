@@ -6,3 +6,6 @@
 
 - name: download Eclipse
   command: creates="{{ eclipse_localdir }}/{{ eclipse_archive }}" "{{ eclipse_localdir }}/eclipse_download.sh"
+
+- name: Extract eclipse
+  

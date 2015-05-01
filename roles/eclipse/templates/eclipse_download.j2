@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo foo
+
+URL={{ eclipse_download_server }}
+#URL=download.eclipse.org/technology/epp/downloads/release
+VERSION=luna/SR2
+FILENAME={{ eclipse_archive }}
+DEST=/home/{{ local_users.0.user }}/Downloads
+
+if [ ! -f $DEST/$FILENAME ]; then
+wget -nv http://download.eclipse.org/technology/epp/downloads/release/{{ eclipse_dirpath }}/$FILENAME -O $DEST/$FILENAME
+fi
+
+
+
