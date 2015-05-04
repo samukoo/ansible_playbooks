@@ -1,0 +1,19 @@
+# file: roles/jmeter/tasks/main.yml
+
+# download and extract jmeter
+
+  - name: download jmeter
+    with_nested:
+      - local_users | default([])
+      - jmeter
+    get_url: url={{ item.1.server }}{{ item.1.archive }} dest={{ item.1.destination }}/{{ item.1.archive }}
+    
+  - name: create jmeter directory
+    with_items: jmeter
+    file: path="{{ item.destination}}/jmeter" state=directory
+
+  - name: extract jmeter
+    with_nested:
+      - local_users | default([])
+      - jmeter
+    unarchive: src={{ item.1.destination }}/{{ item.1.archive }} dest={{ item.1.destination }}/jmeter

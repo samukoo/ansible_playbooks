@@ -1,0 +1,8 @@
+# file: group_vars/all/jmeter.yml
+# jmeter variables
+
+jmeter:
+
+- archive: "apache-jmeter-2.13.tgz"
+  server: "http://www.nic.funet.fi/pub/mirrors/apache.org//jmeter/binaries/"
+  destination: "/usr/local/bin"
