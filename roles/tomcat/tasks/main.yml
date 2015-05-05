@@ -1,0 +1,36 @@
+# file: roles/tomcat/tasks/main.yml
+# download tomcat 8
+
+- name: "Download tomcat"
+  with_nested:
+    - local_users
+    - tomcat
+  get_url: url={{ item.1.server }}/{{ item.1.version }}/{{ item.1.archive}}
+           dest=/home/{{ item.0.user }}/Downloads
+
+- name: "prepare tomcat destination folder"
+  file: path="/opt/tomcat" state=directory
+        owner=tomcat
+        group=tomcat       
+
+- name: "Copy archive to destination"
+  with_nested: 
+    - local_users
+    - tomcat
+  copy: src=/home/{{ item.0.user }}/Downloads/{{ item.1.archive }} 
+        dest=/opt/tomcat/{{ item.1.archive }}
+
+- name: "Extract tomcat archive"
+  with_items:
+    tomcat
+  unarchive: src=/opt/tomcat/{{ item.archive }}
+             dest=/opt/tomcat
+
+- name: "Tomcat folder permissions"
+  file: state=directory recurse=yes
+        path="/opt/tomcat/apache-tomcat-8.0.21"
+        owner="tomcat"
+        group="tomcat"
+
+- name: "Start service"
+  shell: /opt/tomcat/apache-tomcat-8.0.21/bin/startup.sh

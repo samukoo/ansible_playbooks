@@ -1,0 +1,8 @@
+# file: group_vars/all/tomcat.yml
+
+tomcat:
+  - service: "tomcat 8"
+    server: "http://mirror.netinch.com/pub/apache/tomcat"
+    version: "tomcat-8/v8.0.21/bin"
+    archive: "apache-tomcat-8.0.21.tar.gz"
+    md5: "7972dfc3a1e9b9a78738379f7e755a11"
