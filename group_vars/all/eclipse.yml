@@ -1,13 +1,6 @@
-# file: group_vars/all/eclipse.yml
-# variables for eclipse task
 
-eclipse_download_server: "download.eclipse.org/technology/epp/downloads/release"
+eclipse:
 
-
-eclipse_archive: "eclipse-jee-luna-SR2-linux-gtk-x86_64.tar.gz"
-
-eclipse_dirpath: "luna/SR2"
-
-
-eclipse_owner: "{{ local_users.0.user }}"
-eclipse_localdir: "/home/{{ eclipse_owner | mandatory }}"
+  - server: "http://download.eclipse.org/technology/epp/downloads/release"
+    version: "luna/SR2"
+    archive: "eclipse-jee-luna-SR2-linux-gtk-x86_64.tar.gz"

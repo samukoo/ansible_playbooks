@@ -1,8 +1,11 @@
-# file: roles/eclipse/tasks/main.yml
+# file: rols/eclipse/tasks/main.yml
 
-- name: prepare Eclipse download script
-  template: src=eclipse_download.j2
-            dest={{ eclipse_localdir }}/eclipse_download.sh mode=0555
+# download and extract eclipse luna sr2
 
-- name: download Eclipse
-  command: creates="{{ eclipse_localdir }}/{{ eclipse_archive }}" "{{ eclipse_localdir }}/eclipse_download.sh"
+
+
+- name: download eclipse luna sr2
+  with_nested: 
+    - local_users
+    - eclipse
+  get_url: url={{ item.1.server }}/{{ item.1.version }}/{{ item.1.archive }} dest=/home/{{ item.0.user }}/Downloads
