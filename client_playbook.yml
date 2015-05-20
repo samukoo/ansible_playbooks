@@ -2,6 +2,6 @@
 - hosts: localhost
   connection: local
   roles:
-  - common
-  - ci
-  - remote_desktop
+  - common_ubuntu
+  - jenkins_ubuntu
+#  - remote_desktop

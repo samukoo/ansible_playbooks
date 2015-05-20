@@ -1,0 +1,38 @@
+# file roles/jenkinsubuntu/tasks/main.yml
+# jenkins installation to ubuntu
+
+#
+# Install and start jenkins CI
+#
+
+- name: Get jenkins apt-key
+  raw: wget -q -O - https://jenkins-ci.org/debian/jenkins-ci.org.key | sudo apt-key add -
+
+- name: Add jenkins.list
+  command : sh -c 'echo deb http://pkg.jenkins-ci.org/debian binary/ > /etc/apt/sources.list.d/jenkins.list'
+
+- name: Update apt-get
+  apt: update_cache=yes
+
+- name: Install Jenkins CI via apt
+  with_items: 
+  - jenkins
+  apt: name="{{ item }}"
+
+- name: Plugins
+  with_items:
+  - name: greenballs
+  - name: ssh-credentials
+  - name: deploy
+  - name: git-client 
+  - name: git
+  - name: emotional-jenkins-plugin 
+  - name: build-monitor-plugin 
+  sudo: yes
+  get_url: dest="/var/lib/jenkins/plugins/{{ item.name | mandatory }}.jpi"
+           url="https://updates.jenkins-ci.org/latest/{{ item.name }}.hpi" validate_certs=no
+           owner=jenkins group=jenkins mode=0644
+  notify: Restart Jenkins
+
+- name: Start Jenkins CI
+  service: name=jenkins enabled=yes state=started

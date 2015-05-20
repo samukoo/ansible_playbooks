@@ -9,7 +9,7 @@
   - wget
   - python-boto
   - docker
-  yum: name={{ item }} state=present force=yes
+  apt: name={{ item }} state=present force=yes
 
 - name: Let's enable SSH server if it's not already enabled
-  service: name=sshd enabled=yes state=started
+  service: name=ssh enabled=yes state=started

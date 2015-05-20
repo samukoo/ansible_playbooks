@@ -7,7 +7,7 @@
 - name: Install jenkins CI server
   with_items:
   - jenkins
-  yum: name="{{ item }}"
+  apt: name="{{ item }}"
 
 - name: Start jenkins CI server
   service: name=jenkins enabled=yes state=started
